@@ -133,15 +133,24 @@ Added error handling to alert users if API responses fail or exceed rate limits.
 Ensured servers and load balancers were properly configured to avoid downtime.
 ________________________________________
 Lessons Learned
+
 •	Integrating multiple APIs into a single project.
+
 •	Deploying a web application on a load-balanced setup.
+
 •	Writing clean, modular JavaScript for interactivity.
+
 •	Handling errors gracefully for a better user experience.
+
 ________________________________________
 Future Improvements
+
 •	User Accounts: Allow users to save favorite movies and view watch history.
+
 •	Advanced Filters: Add filters for genres, ratings, and release years.
+
 •	Offline Mode: Implement caching for offline access to previously viewed movies.
+
 ________________________________________
 Credits
 •	OMDb API: For providing detailed movie information.
