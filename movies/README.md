@@ -1,0 +1,119 @@
+Welcome to Oliflick
+Oliflick is a web application designed to offer an interactive movie-browsing experience. It integrates APIs to fetch movie data and trailers, showcasing trending movies, search functionalities, and responsive design. This project explores working with APIs, implementing a dynamic frontend, and deploying the application for public use.
+
+
+
+
+Introduction
+Oliflick is your go-to platform to:
+•	Discover Trending Movies: Browse top picks and trending movies from the comfort of your home.
+•	Search with Ease: Use the search bar to find movies by title, genre, or other keywords.
+•	Watch Trailers: Instantly access YouTube trailers for movies of your choice.
+This project also serves as a learning experience in:
+1.	API integration for real-time data retrieval.
+2.	Responsive web design principles.
+3.	Deployment and server management practices.
+________________________________________
+Features
+Movie Search:
+•	Type in a keyword and retrieve matching movies with posters and titles.
+Trending and Top Picks:
+•	Predefined categories like Trending Now and Top Picks provide ready-made movie suggestions.
+Watch Trailers:
+•	Click the "Play" button on any movie card to view its trailer in an embedded YouTube player.
+Responsive Design:
+•	The application adapts seamlessly to both mobile and desktop devices.
+________________________________________
+Installation and Setup
+Local Setup
+https://github.com/IshimweOlivier-20/Oliflick-movies.git  
+cd oliflick  
+
+•  Obtain API keys:
+•	OMDb API: Sign up at OMDb API and get your free API key.
+•	YouTube Data API: Get a key from the Google Cloud Console.
+•  Configure API keys:
+Deployment
+This project is deployed on load-balanced servers for scalability and reliability. Below is the step-by-step process:
+Prepare Files
+1.	Zip the project directory:
+zip -r oliflick.zip oliflick  
+upload to the servers
+
+scp oliflick.zip ubuntu@web-01:/var/www/html/  
+scp oliflick.zip ubuntu@web-02:/var/www/html/  
+
+ssh ubuntu@web-01  
+sudo apt-get install unzip  # If unzip is not installed  
+cd /var/www/html/  
+unzip oliflick.zip  
+
+server {  
+    listen 80;  
+    server_name web-01;  
+
+    root /var/www/html/;  
+    index index.html;  
+
+    location / {  
+        try_files $uri $uri/ =404;  
+    }  
+}  
+
+sudo systemctl restart nginx  
+frontend oliflick_front  
+    bind *:80  
+    default_backend oliflick_backend  
+
+backend oliflick_backend  
+    balance roundrobin  
+    server web-01 54.89.152.170:80 check  
+    server web-0234.230.31.95:80 check  
+
+The load balancer is efficiently configured using HAProxy, distributing incoming traffic evenly between web-01 and web-02. The frontend, nshuti_front, listens on ports 80 and 443, with SSL certificates stored at /etc/letsencrypt/live/www.nshuti.tech/nshuti.pem.
+5.	Also, to view the application use the lb-01 IP address or www.nshuti.tech
+6.	
+7.	
+
+
+
+
+APIs Used
+OMDb API
+•	Base URL: http://www.omdbapi.com/
+•	Fetches movie data including titles, posters, and descriptions.
+YouTube Data API
+•	Base URL: https://www.googleapis.com/youtube/v3
+•	Retrieves movie trailers by searching YouTube with the movie title.
+________________________________________
+Challenges and Solutions
+1.	API Rate Limits:
+Implemented caching to minimize redundant API calls and handle rate limits effectively.
+2.	Responsive Design:
+Leveraged CSS media queries to ensure the app works on devices of all sizes.
+3.	API Errors:
+Added error handling to alert users if API responses fail or exceed rate limits.
+4.	Deployment Configuration:
+Ensured servers and load balancers were properly configured to avoid downtime.
+________________________________________
+Lessons Learned
+•	Integrating multiple APIs into a single project.
+•	Deploying a web application on a load-balanced setup.
+•	Writing clean, modular JavaScript for interactivity.
+•	Handling errors gracefully for a better user experience.
+________________________________________
+Future Improvements
+•	User Accounts: Allow users to save favorite movies and view watch history.
+•	Advanced Filters: Add filters for genres, ratings, and release years.
+•	Offline Mode: Implement caching for offline access to previously viewed movies.
+________________________________________
+Credits
+•	OMDb API: For providing detailed movie information.
+•	YouTube Data API: For enabling trailer playback functionality.
+•	CSS Tricks: For responsive design inspiration.
+•	African Leadership University: For providing server resources and mentorship.
+________________________________________
+Conclusion
+Oliflick is a dynamic web app combining the power of APIs and responsive design to deliver an engaging movie-browsing experience. Whether you're a developer learning API integration or a movie enthusiast, Oliflick has something for everyone.
+
+
