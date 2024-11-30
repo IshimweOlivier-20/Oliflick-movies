@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oliflick</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    
+    <header class="navbar">
+        <div class="logo">StreamFlix</div>
+        
+    </header>
+
+    
+    <section class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search for movies..." />
+        <button id="searchButton">Search</button>
+    </section>
+
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Featured Movie</h1>
+            <p>Catch the latest blockbuster! Watch now and immerse yourself in the action.</p>
+            <button>Play</button>
+            <button>More Info</button>
+        </div>
+    </section>
+
+    
+    <section id="searchResults" class="carousel hidden">
+        <h2>Search Results</h2>
+        <div class="carousel-row"></div>
+    </section>
+
+    
+    <section id="trendingNow" class="carousel">
+        <h2>Trending Now</h2>
+        <div class="carousel-row"></div>
+    </section>
+
+    <section id="topPicks" class="carousel">
+        <h2>Top Picks</h2>
+        <div class="carousel-row"></div>
+    </section>
+
+    <div id="popupPlayer" class="popup hidden">
+        <div class="popup-content">
+            <span id="closePopup" class="close">&times;</span>
+            <h2 id="popupTitle">Now Playing:</h2>
+            <iframe id="youtubeIframe" width="100%" height="400px" src="" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 StreamFlix. All rights reserved.</p>
+            <nav>
+                <a href="#">Privacy Policy</a> |
+                <a href="#">Terms of Service</a> |
+                <a href="#">Contact Us</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script>
+        const apiKey = "1e132333";
+        const youtubeApiKey = "AIzaSyA7P7JGKFIhoKXn0L4IjzmjUekgz9_5mUM"; 
+
+        
+        async function fetchMovies(keyword) {
+            const url = `https://www.omdbapi.com/?s=${encodeURIComponent(keyword)}&apikey=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.Response === "True") {
+                    return data.Search;
+                } else {
+                    console.error(data.Error);
+                    return [];
+                }
+            } catch (error) {
+                console.error("Error fetching movies:", error);
+                return [];
+            }
+        }
+
+
+        async function populateCarousel(keyword, carouselId) {
+            const movies = await fetchMovies(keyword);
+            const carouselRow = document.querySelector(`#${carouselId} .carousel-row`);
+            carouselRow.innerHTML = "";
+
+            movies.forEach(movie => {
+                const movieCard = `
+                    <div class="movie-card">
+                        <img src="${movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/150x225"}" alt="${movie.Title} Poster">
+                        <h3>${movie.Title}</h3>
+                        <button class="play-button" onclick="playTrailer('${movie.Title}')">Play</button>
+                    </div>
+                `;
+                carouselRow.insertAdjacentHTML("beforeend", movieCard);
+            });
+        }
+
+
+        async function fetchYouTubeTrailer(movieTitle) {
+            const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(movieTitle + " trailer")}&key=${youtubeApiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.items && data.items.length > 0) {
+                    return `https://www.youtube.com/embed/${data.items[0].id.videoId}`;
+                } else {
+                    console.error("No trailer found.");
+                    return null;
+                }
+            } catch (error) {
+                console.error("Error fetching YouTube trailer:", error);
+                return null;
+            }
+        }
+
+
+        async function playTrailer(movieTitle) {
+            const youtubeUrl = await fetchYouTubeTrailer(movieTitle);
+            if (!youtubeUrl) {
+                alert("Trailer not available.");
+                return;
+            }
+
+            const popup = document.getElementById("popupPlayer");
+            const popupTitle = document.getElementById("popupTitle");
+            const youtubeIframe = document.getElementById("youtubeIframe");
+
+            popupTitle.textContent = `Now Playing: ${movieTitle}`;
+            youtubeIframe.src = youtubeUrl;
+
+            popup.classList.remove("hidden");
+        }
+
+
+        document.getElementById("closePopup").addEventListener("click", () => {
+            const popup = document.getElementById("popupPlayer");
+            const youtubeIframe = document.getElementById("youtubeIframe");
+
+            youtubeIframe.src = "";
+            popup.classList.add("hidden");
+        });
+
+
+        async function searchMovies() {
+            const query = document.getElementById("searchInput").value;
+            if (!query.trim()) {
+                alert("Please enter a movie title.");
+                return;
+            }
+
+            const searchResults = document.getElementById("searchResults");
+            searchResults.classList.remove("hidden");
+            populateCarousel(query, "searchResults");
+        }
+
+
+        function initializeCarousels() {
+            populateCarousel("Avengers", "trendingNow");
+            populateCarousel("Batman", "topPicks");
+        }
+
+
+        document.getElementById("searchButton").addEventListener("click", searchMovies);
+
+
+        document.addEventListener("DOMContentLoaded", initializeCarousels);
+    </script>
+</body>
+
+</html>
