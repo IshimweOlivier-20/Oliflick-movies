@@ -6,16 +6,26 @@ Oliflick is a web application designed to offer an interactive movie-browsing ex
 
 
 Introduction
+
 Oliflick is your go-to platform to:
+
 •	Discover Trending Movies: Browse top picks and trending movies from the comfort of your home.
+
 •	Search with Ease: Use the search bar to find movies by title, genre, or other keywords.
+
 •	Watch Trailers: Instantly access YouTube trailers for movies of your choice.
+
 This project also serves as a learning experience in:
+
 1.	API integration for real-time data retrieval.
+
 2.	Responsive web design principles.
+	
 3.	Deployment and server management practices.
+   
 ________________________________________
 Features
+
 Movie Search:
 •	Type in a keyword and retrieve matching movies with posters and titles.
 Trending and Top Picks:
