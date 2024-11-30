@@ -27,36 +27,61 @@ ________________________________________
 Features
 
 Movie Search:
+
 •	Type in a keyword and retrieve matching movies with posters and titles.
+
 Trending and Top Picks:
+
 •	Predefined categories like Trending Now and Top Picks provide ready-made movie suggestions.
+
 Watch Trailers:
+
 •	Click the "Play" button on any movie card to view its trailer in an embedded YouTube player.
+
 Responsive Design:
+
 •	The application adapts seamlessly to both mobile and desktop devices.
+
 ________________________________________
+
 Installation and Setup
+
 Local Setup
-https://github.com/IshimweOlivier-20/Oliflick-movies.git  
+git clone https://github.com/IshimweOlivier-20/Oliflick-movies.git 
+
 cd oliflick  
 
 •  Obtain API keys:
+
 •	OMDb API: Sign up at OMDb API and get your free API key.
+
 •	YouTube Data API: Get a key from the Google Cloud Console.
+
 •  Configure API keys:
+
+
 Deployment
+
 This project is deployed on load-balanced servers for scalability and reliability. Below is the step-by-step process:
+
 Prepare Files
+
 1.	Zip the project directory:
+   
 zip -r oliflick.zip oliflick  
+
 upload to the servers
 
 scp oliflick.zip ubuntu@web-01:/var/www/html/  
+
 scp oliflick.zip ubuntu@web-02:/var/www/html/  
 
 ssh ubuntu@web-01  
+
 sudo apt-get install unzip  # If unzip is not installed  
+
 cd /var/www/html/  
+
 unzip oliflick.zip  
 
 server {  
