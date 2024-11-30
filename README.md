@@ -101,6 +101,10 @@ The load balancer is efficiently configured using HAProxy, distributing incoming
 
 APIs Used OMDb API • Base URL: http://www.omdbapi.com/ • Fetches movie data including titles, posters, and descriptions. YouTube Data API • Base URL: https://www.googleapis.com/youtube/v3 • Retrieves movie trailers by searching YouTube with the movie title.
 
+Youtube demo 
+
+Link: https://youtu.be/M5-e0FSraio
+
 Challenges and Solutions
 
 API Rate Limits: Implemented caching to minimize redundant API calls and handle rate limits effectively.
