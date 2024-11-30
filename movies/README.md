@@ -1,4 +1,5 @@
 Welcome to Oliflick
+
 Oliflick is a web application designed to offer an interactive movie-browsing experience. It integrates APIs to fetch movie data and trailers, showcasing trending movies, search functionalities, and responsive design. This project explores working with APIs, implementing a dynamic frontend, and deploying the application for public use.
 
 
